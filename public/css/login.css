@@ -61,6 +61,7 @@ main {
     width: 100%; 
     max-width: 400px;     /* Para que no se vea tan ancho en desktop */   
     font-size: 1.2em;
+    
 }
 .login-bottom a p {
     color: var(--colors-naranja);
@@ -83,6 +84,32 @@ main {
 }
 #recordame-label {
     color: white;
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+}
+
+.recordame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 20%;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 380px;
+    font-size: 1.1em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    margin: auto;
+    padding: 3px;
+    color: var(--colors-naranja);
+    /* text-shadow: #F04E24 0px 4px 4px; */
+
+}
+#recordame-checkbox{
+    height: 100%;
+    width: 7%;
 }
 
 /* Hacer que aparezca el mensaje si no se encuentra al usuario */

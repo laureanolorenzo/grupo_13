@@ -2,7 +2,7 @@
 <html lang="en">
     <%- include('./partials/head') %>
     <body>
-        <% if (typeof user === 'undefined') { %>
+        <% if (typeof locals.userLoggedIn === 'undefined') { %>
             <%- include('./partials/header') %>
         <% } else { %>
             <%- include('./partials/headerLoggedIn') %>

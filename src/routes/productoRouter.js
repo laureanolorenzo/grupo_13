@@ -46,9 +46,9 @@ router.get('/crear_producto',adminMiddleware, productoController.crear_productoV
 
 router.post('/crear_producto/process', multipleUpload, productoController.crear_productoProcess);
 
-router.get('/editar_producto/:id', productoController.editar_productoView);
+router.get('/editar_producto/:id',adminMiddleware, productoController.editar_productoView);
 
-router.post('/editar_producto/process/:id', multipleUpload ,productoController.editar_producto);
+router.post('/editar_producto/process/:id',adminMiddleware, multipleUpload ,productoController.editar_producto);
 
 //Categorias
 

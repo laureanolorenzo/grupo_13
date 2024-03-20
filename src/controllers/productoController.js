@@ -33,7 +33,7 @@ const productoController = {
                 db.Peliculas.findAll()
                     .then(function(detallePelicula){
                             let detalleProductoId = req.params.id;
-                            return res.render('detalle_producto', {detallePelicula:detallePelicula, detalleProductoId:detalleProductoId, categorias:categorias});
+                            return res.render('detalle_producto', {detallePelicula:detallePelicula, detalleProductoId:detalleProductoId, categorias:categorias,session:req.session});
                         })
             })
         

@@ -3,7 +3,7 @@
     <%- include('./partials/head') %>    
     <body class="kiosco-body">
 
-        <% if (typeof user === 'undefined') { %>
+        <% if (typeof locals.userLoggedIn === 'undefined') { %>
             <%- include('./partials/header') %>
         <% } else { %>
             <%- include('./partials/headerLoggedIn') %>

@@ -8,7 +8,7 @@ const session = require('express-session');
 const cookie = require('cookie-parser');
 const db = require('../../database/models');
 const {Op} = require('sequelize');
- 
+const app = require('express');
 const {validationResult} = require('express-validator');
 const { error } = require('console');
 function checkPasswordValidity(pw) { //Donde va esto?? En un archivo aparte??
@@ -40,7 +40,8 @@ function checkPasswordValidity(pw) { //Donde va esto?? En un archivo aparte??
 }
 
 const usersController = {
-    usersView(req,res) {
+    async usersView(req,res) {
+        // const user = await db.findByPk(req.session.userLoggedIn.idUsuario);
         // res.render('perfilUsuario', { user: req.session.userLoggedIn }); // Incluir objeto (que venga de JSON con los datos de cada producto)
         res.render('perfilUsuario'); // Incluir objeto (que venga de JSON con los datos de cada producto)
     },
@@ -210,7 +211,8 @@ const usersController = {
             res.locals.userLoggedIn = userToLog; // https://stackoverflow.com/questions/56698453/express-session-cannot-set-property-user-of-undefined
             res.redirect('/home'); //Login exitoso
         } else {
-            errorMsg = 'Usuario o contraseña incorrectos'
+            errorMsg = 'Usuario o contraseña incorrectos';
+            app.locals.userLoggedIn = req.session.userLoggedIn;
             return res.render('login',{'errormsg':errorMsg});
         }
 
