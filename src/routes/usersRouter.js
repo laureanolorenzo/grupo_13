@@ -4,6 +4,8 @@ const router = express.Router();
 const {body} = require('express-validator');
 const path = require ('path');
 const multer = require ('multer');
+const db = require('../../database/models');
+const bcrypt = require('bcryptjs');
 
 const guestMiddleware = require('../middlewares/guestMiddleware');
 const ingresarAPerfilMiddleware = require('../middlewares/ingresarAPerfilMiddleware');
@@ -24,11 +26,7 @@ const validacionesRegistro = [
     body('username').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 2}).withMessage('El valor ingresado debe tener al menos 2 caracteres'),
     body('email').notEmpty().withMessage('Este campo no puede estar vacío').bail().isEmail().withMessage('El email ingresado no es válido'),
     body('password').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 8}).withMessage('El valor ingresado debe tener al menos 8 caracteres'),
-    body('repeat_password').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 8}).withMessage('El valor ingresado debe tener al menos 8 caracteres'),
     body('rol').notEmpty().withMessage('Debe seleccionar un rol'),
-    // body('rol').custom((value, {req}) => {
-    //     let valorRol = req.body.value;
-    // }),
     body('avatar').custom((value, {req}) => {
         let file = req.file;
         let acceptedExtensions = ['.jpg','.jpeg', '.png', '.gif'];
@@ -45,13 +43,38 @@ const validacionesRegistro = [
     })
 ];
 
+const validacionesLogin = [
+    body('email').notEmpty().withMessage('Debe ingresar un email').bail().isEmail().withMessage('El email ingresado no es válido').bail().custom(async(value, {req} ) => {
+        await db.Usuarios.findAll()
+            .then(function(usuarios){
+                let mailExistente = false;
+                for (let i in usuarios){
+                    if (usuarios[i].email === req.body.email){
+                        mailExistente = true;
+                    }
+                }
+                if (!mailExistente){
+                    throw new Error('El email ingresado no está registrado');
+                }
+            })
+    }),
+    body('password').notEmpty().withMessage('Ingrese su contraseña').bail().custom(async(value, {req}) => {
+        await db.Usuarios.findAll()
+            .then(function(usuarios){
+                for (let i in usuarios){
+                    if (usuarios[i].email == req.body.email){
+                        if (!bcrypt.compareSync(req.body.password, usuarios[i].password)){
+                            throw new Error('La contraseña es incorrecta');
+                        }
+                    }
+                }
+            })
+    })
+]
+
 fileUpload = multer({storage: multerDiskStorage});
 singleUpload = fileUpload.single('avatar');
 
-const userLoginValidations = [
-    body('email').notEmpty().withMessage('*Por favor escriba su usuario o correo electrónico'),
-    body('password').notEmpty().withMessage('*Debe escribir su contraseña')
-]
 // Metodos
 
 router.get('/usuario', usersController.usersView);
@@ -72,7 +95,7 @@ router.post('/registro', singleUpload, validacionesRegistro, usersController.pos
 
 router.get('/login', guestMiddleware, usersController.login);
 
-router.post('/login/process',userLoginValidations, usersController.loginProcess);
+router.post('/login/process',validacionesLogin, usersController.loginProcess);
 
 
 

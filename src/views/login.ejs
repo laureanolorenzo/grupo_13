@@ -13,14 +13,35 @@
           <div class="login_container">
             <h2 class="titulo-login">Iniciar sesión</h2>
 
-            <form action="/login/process" method="POST" >
-              <label for="email" class="field">Correo electrónico
-                <input type="text" name="email" id="email" class="input-text">
-              </label>
+        <form action="/login/process" method="POST" class="login-form">
+          <label for="email" class="field">Correo electrónico
+            <input type="text" name="email" id="email" class="input-text" value="<%= locals.old && old.email ? old.email : ''%>">
+          </label>
 
-              <label for="password" class="field">Contraseña
-                <input type="password" name="password" id="password" class="input-text">
-              </label>
+          <% if (locals.errores){ %>
+
+              
+                  <% for (let i in errores){ %>
+                      <% if (errores[i].path === 'email'){%>
+                          <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                      <% } %>
+                  <% } %>
+          <% } %>
+
+          <label for="password" class="field">Contraseña
+            <input type="password" name="password" id="password" class="input-text">
+          </label>
+
+          <% if (locals.errores){ %>
+
+            
+                <% for (let i in errores){ %>
+                    <% if (errores[i].path === 'password'){%>
+                        <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                    <% } %>
+                <% } %>
+            
+          <% } %>
 
               <div class="field-checkbox">
                 <input type="checkbox" name="recordame" id="recordame">
