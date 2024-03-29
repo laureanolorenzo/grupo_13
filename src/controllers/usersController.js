@@ -54,14 +54,27 @@ const usersController = {
 
     registerView(req,res) {
         db.roles.findAll()
-            .then(function(roles){
-                return res.render('registro', {roles:roles})
-            })
+        .then(function(roles){
+            return res.render('registro', {roles:roles})
+        })
     },
     
     async postRegisterData(req,res) {
-
+        
         let errores = validationResult(req);
+        let errorMail = '';
+        
+        await db.Usuarios.findAll()
+            .then(function(usuarios){
+                for (let i in usuarios){
+                    if (usuarios[i].email === req.body.email){
+                        db.roles.findAll()
+                        .then(function(){
+                            errorMail = 'El email ingresado ya está registrado';
+                        })
+                    }
+                }
+            })
 
         if (errores.isEmpty()){
             await db.Usuarios.create({
@@ -73,10 +86,9 @@ const usersController = {
             });
             res.redirect('/home');
         } else{
-            // res.send(errores)
             db.roles.findAll()
             .then(function(roles){
-                return res.render('registro',{roles:roles, errores:errores.array()})
+                return res.render('registro',{roles:roles, errores:errores.array(), old:req.body, errorMail:errorMail})
             })
         }
 

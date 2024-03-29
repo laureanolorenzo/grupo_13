@@ -21,11 +21,10 @@ let multerDiskStorage = multer.diskStorage({ //Se guarda como variable para usar
 
 //validaciones
 const validacionesRegistro = [
-    body('username').notEmpty().withMessage('Este campo no puede estar vacío'),
-    body('email').notEmpty().withMessage('Este campo no puede estar vacío'),
-    body('email').isEmail().withMessage('El email ingresado no es válido'),
-    body('password').notEmpty().withMessage('Este campo no puede estar vacío'),
-    body('repeat_password').notEmpty().withMessage('Este campo no puede estar vacío')
+    body('username').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 2}).withMessage('El valor ingresado debe tener al menos 2 caracteres'),
+    body('email').notEmpty().withMessage('Este campo no puede estar vacío').bail().isEmail().withMessage('El email ingresado no es válido'),
+    body('password').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 8}).withMessage('El valor ingresado debe tener al menos 8 caracteres'),
+    body('repeat_password').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 8}).withMessage('El valor ingresado debe tener al menos 8 caracteres')
 ];
 
 fileUpload = multer({storage: multerDiskStorage});

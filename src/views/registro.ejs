@@ -18,24 +18,29 @@
                 
                 
                 <label class="field" for="username"> Nombre de usuario
-                    <input class="input-text" type="text" name="username" id="username">
+                    <input class="input-text" type="text" name="username" id="username" value="<%= locals.old && old.username ? old.username : ''%>">
                 </label>
 
                 <% if (locals.errores){ %>
                     <% for (let i in errores){ %>
                         <% if (errores[i].path === 'username'){%>
-                            <p class="mensajeDeError"> <%= errores[i].msg %></p>
+                            <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
                         <% } %>
                     <% } %>
                 <% } %>
     
                 <label class="field" for="email"> Email
-                    <input class="input-text" type="email" name="email" id="email">
+                    <input class="input-text" type="email" name="email" id="email" value="<%= locals.old && old.email ? old.email : ''%>">
                 </label>
                 <% if (locals.errores){ %>
-                    <% for (let i in errores){ %>
-                        <% if (errores[i].path === 'email'){%>
-                            <p class="mensajeDeError"> <%= errores[i].msg %></p>
+
+                    <% if (errorMail != ''){ %>
+                        <h3 class="mensajeDeError"> <%= errorMail %></h3>
+                    <% } else { %>
+                        <% for (let i in errores){ %>
+                            <% if (errores[i].path === 'email'){%>
+                                <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                            <% } %>
                         <% } %>
                     <% } %>
                 <% } %>
@@ -48,7 +53,7 @@
                     <select name="rol" id="rol">
                         <option value="" disabled selected hidden>Seleccionar</option>
                         <% for (let i=0; i<roles.length; i++) { %>
-                            <option value="<%= roles[i].id %>"><%= roles[i].tipo %></option>
+                            <option value="<%= roles[i].id %>" ><%= roles[i].tipo %></option>
                         <% } %>
                     </select>
                 </label>
@@ -60,22 +65,22 @@
                 <% if (locals.errores){ %>
                     <% for (let i in errores){ %>
                         <% if (errores[i].path === 'password'){%>
-                            <p class="mensajeDeError"> <%= errores[i].msg %></p>
+                            <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
                         <% } %>
                     <% } %>
                 <% } %>
     
-                <label class="field" for="repeat_password"> Repetir contraseña
+                <!-- <label class="field" for="repeat_password"> Repetir contraseña
                     <input class="input-text" type="password" name="repeat_password" id="repeat_password">
-                </label>
+                </label> -->
 
-                <% if (locals.errores){ %>
+                <!-- <% if (locals.errores){ %>
                     <% for (let i in errores){ %>
                         <% if (errores[i].path === 'repeat_password'){%>
-                            <p class="mensajeDeError"> <%= errores[i].msg %></p>
+                            <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
                         <% } %>
                     <% } %>
-                <% } %>
+                <% } %> -->
 
                 <div class="login-bottom">
                     <button type="submit" class="button">Registrarse</button>

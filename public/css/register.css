@@ -71,8 +71,12 @@ footer {
 
 
 .mensajeDeError {
-    font-style: italic;
-    color: white;
+    font-size: 12px;
+    text-shadow: black 1px 1px 1px;
+    text-align: center;
+    /* font-style: italic; */
+    color: red;
+    margin: 0 0 15px 0;
 }
 
 
