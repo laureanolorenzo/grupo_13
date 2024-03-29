@@ -7,11 +7,12 @@
 
 
 .titulo-login {
-    height: 36px;
-    text-align: bottom;
+    margin-bottom: 24px;
     font-size: 1.5em;
-    width: 95%;
     margin-left: 0px;
-    border-bottom: solid var(--colors-blanco) 3px;
+    /* border-bottom: solid var(--colors-blanco) 2px; */
+    /* text-decoration: underline; */
     color: var(--colors-blanco);
+    font-weight: 400;
+    text-align: center;
 }

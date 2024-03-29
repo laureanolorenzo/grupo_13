@@ -43,6 +43,7 @@ body{
   padding-inline-end: 16px;
   padding-inline-start: 16px;
   margin: auto;
+  /* border: 1px solid red; */
 }
 
 /* @media screen and (max-width: 767px){
