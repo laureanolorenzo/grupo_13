@@ -14,14 +14,31 @@
         <main class="registro">
             <h2 class="titulo-login">Registrarse</h2>
             <form action="/registro" method="POST" class="wrapper" enctype ="multipart/form-data">
+
+                
                 
                 <label class="field" for="username"> Nombre de usuario
                     <input class="input-text" type="text" name="username" id="username">
                 </label>
+
+                <% if (locals.errores){ %>
+                    <% for (let i in errores){ %>
+                        <% if (errores[i].path === 'username'){%>
+                            <p class="mensajeDeError"> <%= errores[i].msg %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
     
                 <label class="field" for="email"> Email
                     <input class="input-text" type="email" name="email" id="email">
                 </label>
+                <% if (locals.errores){ %>
+                    <% for (let i in errores){ %>
+                        <% if (errores[i].path === 'email'){%>
+                            <p class="mensajeDeError"> <%= errores[i].msg %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
     
                 <label class="field" for="avatar"> Foto de perfil
                     <input class="input-text" type="file" name="avatar" id="avatar">
@@ -39,10 +56,26 @@
                 <label class="field" for="password"> Contraseña
                     <input class="input-text" type="password" name="password" id="password">
                 </label>
+
+                <% if (locals.errores){ %>
+                    <% for (let i in errores){ %>
+                        <% if (errores[i].path === 'password'){%>
+                            <p class="mensajeDeError"> <%= errores[i].msg %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
     
                 <label class="field" for="repeat_password"> Repetir contraseña
                     <input class="input-text" type="password" name="repeat_password" id="repeat_password">
                 </label>
+
+                <% if (locals.errores){ %>
+                    <% for (let i in errores){ %>
+                        <% if (errores[i].path === 'repeat_password'){%>
+                            <p class="mensajeDeError"> <%= errores[i].msg %></p>
+                        <% } %>
+                    <% } %>
+                <% } %>
 
                 <div class="login-bottom">
                     <button type="submit" class="button">Registrarse</button>

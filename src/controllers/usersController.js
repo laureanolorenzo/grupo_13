@@ -60,14 +60,27 @@ const usersController = {
     },
     
     async postRegisterData(req,res) {
-        await db.Usuarios.create({
-            nombre: req.body.username,
-            email: req.body.email,
-            password: bcrypt.hashSync(req.body.password),
-            foto: req.file.filename,
-            id_rol: req.body.rol,
-        });
-        res.redirect('/home');
+
+        let errores = validationResult(req);
+
+        if (errores.isEmpty()){
+            await db.Usuarios.create({
+                nombre: req.body.username,
+                email: req.body.email,
+                password: bcrypt.hashSync(req.body.password),
+                foto: req.body.filename,
+                id_rol: req.body.rol,
+            });
+            res.redirect('/home');
+        } else{
+            // res.send(errores)
+            db.roles.findAll()
+            .then(function(roles){
+                return res.render('registro',{roles:roles, errores:errores.array()})
+            })
+        }
+
+
         
         // let emailInDB = User.findByField('email', req.body.email);
         // let userInDB = User.findByField('user',req.body.user);

@@ -70,6 +70,11 @@ footer {
 }
 
 
+.mensajeDeError {
+    font-style: italic;
+    color: white;
+}
+
 
 /* label input { DEBE HABER OTRO ARCHIVO MODIFICANDO ESTO?!
     border: 8px solid red;
