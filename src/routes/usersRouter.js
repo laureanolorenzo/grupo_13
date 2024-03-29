@@ -24,19 +24,23 @@ const validacionesRegistro = [
     body('username').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 2}).withMessage('El valor ingresado debe tener al menos 2 caracteres'),
     body('email').notEmpty().withMessage('Este campo no puede estar vacío').bail().isEmail().withMessage('El email ingresado no es válido'),
     body('password').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 8}).withMessage('El valor ingresado debe tener al menos 8 caracteres'),
-    body('repeat_password').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 8}).withMessage('El valor ingresado debe tener al menos 8 caracteres')
+    body('repeat_password').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 8}).withMessage('El valor ingresado debe tener al menos 8 caracteres'),
+    body('avatar').custom((value, {req}) => {
+        let file = req.file;
+        let acceptedExtensions = ['.jpg','.jpeg', '.png', '.gif'];
+        let fileExtension = path.extname(file.originalname)
+        if (!file) {
+            throw new Error('Debes subir una imagen de alguno de los siguientes formatos: JPG, JPEG, PNG, GIF')
+        }
+        if (!acceptedExtensions.includes(fileExtension)){
+            throw new Error('El formato de la imagen debe ser JPG, JPEG, PNG o GIF')
+        }
+        return true;
+    })
 ];
 
 fileUpload = multer({storage: multerDiskStorage});
 singleUpload = fileUpload.single('avatar');
-
-// const userValidations = [
-//     body('email').notEmpty().withMessage('*Por favor escriba su correo electrónico').isLength({min: 5, max: 40}).withMessage('*Email inválido'),
-//     body('username').notEmpty().withMessage('*Por favor escriba su nombre de usuario').isLength({min:3, max:40}).withMessage('El usuario debe tener 3 a 40 caracteres'),
-//     body('password').notEmpty().withMessage('*Por favor escriba una contraseña').isLength({min:3, max:40}).withMessage('La contraseña debe tener 3 a 40 caracteres'),
-//     body('repeat_password').notEmpty().withMessage('*Por favor repita su contraseña'),
-    
-// ]
 
 const userLoginValidations = [
     body('email').notEmpty().withMessage('*Por favor escriba su usuario o correo electrónico'),
