@@ -30,10 +30,41 @@
                             <% } %>
                         <% } %>
 
+<<<<<<< HEAD
                         <label class="field" for="email"> Email
                             <input class="input-text" type="email" name="email" id="email" value="<%= locals.old && old.email ? old.email : ''%>">
                         </label>
                         <% if (locals.errores){ %>
+=======
+                <% if (locals.errores){ %>
+                    <% for (let i in errores){ %>
+                        <% if (errores[i].path === 'avatar'){%>
+                            <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                        <% } %>
+                    <% } %>
+                <% } %>
+    
+                <label class="field" for="rol"> Rol
+                    <select name="rol" id="rol">
+                        <option value="" disabled selected hidden>Seleccionar</option>
+                        <% for (let i=0; i<roles.length; i++) { %>
+                            <option value="<%= roles[i].id %>" ><%= roles[i].tipo %></option>
+                        <% } %>
+                    </select>
+                </label>
+
+                <% if (locals.errores){ %>
+                    <% for (let i in errores){ %>
+                        <% if (errores[i].path === 'rol'){%>
+                            <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                        <% } %>
+                    <% } %>
+                <% } %>
+    
+                <label class="field" for="password"> Contraseña
+                    <input class="input-text" type="password" name="password" id="password">
+                </label>
+>>>>>>> 903609be4280d481aadd33b5d698e145d699d4fe
 
                             <% if (errorMail != ''){ %>
                                 <h3 class="mensajeDeError"> <%= errorMail %></h3>

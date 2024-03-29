@@ -25,12 +25,18 @@ const validacionesRegistro = [
     body('email').notEmpty().withMessage('Este campo no puede estar vacío').bail().isEmail().withMessage('El email ingresado no es válido'),
     body('password').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 8}).withMessage('El valor ingresado debe tener al menos 8 caracteres'),
     body('repeat_password').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 8}).withMessage('El valor ingresado debe tener al menos 8 caracteres'),
+    body('rol').notEmpty().withMessage('Debe seleccionar un rol'),
+    // body('rol').custom((value, {req}) => {
+    //     let valorRol = req.body.value;
+    // }),
     body('avatar').custom((value, {req}) => {
         let file = req.file;
         let acceptedExtensions = ['.jpg','.jpeg', '.png', '.gif'];
-        let fileExtension = path.extname(file.originalname)
+        let fileExtension;
         if (!file) {
             throw new Error('Debes subir una imagen de alguno de los siguientes formatos: JPG, JPEG, PNG, GIF')
+        } else {
+            fileExtension = path.extname(file.originalname)
         }
         if (!acceptedExtensions.includes(fileExtension)){
             throw new Error('El formato de la imagen debe ser JPG, JPEG, PNG o GIF')
