@@ -65,6 +65,14 @@
                         <% } %>
                     </select>
                 </label>
+
+                <% if (locals.errores){ %>
+                    <% for (let i in errores){ %>
+                        <% if (errores[i].path === 'rol'){%>
+                            <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                        <% } %>
+                    <% } %>
+                <% } %>
     
                 <label class="field" for="password"> Contraseña
                     <input class="input-text" type="password" name="password" id="password">
