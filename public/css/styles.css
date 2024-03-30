@@ -43,7 +43,18 @@ body{
   padding-inline-end: 16px;
   padding-inline-start: 16px;
   margin: auto;
-  /* border: 1px solid red; */
+}
+
+.ellipsis {
+  overflow: hidden;
+  /*es to es si solo se quiere usar ellipsis en alguna otra parte*/
+}
+
+.ellipsis > * {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* @media screen and (max-width: 767px){
