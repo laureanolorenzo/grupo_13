@@ -1,77 +1,77 @@
 /* Color del fondo */
 .login-body {
-    background: linear-gradient( #AC1BD0 0% ,#8F28A9 20%, #763686 40%, #684171 60%, #5E4A63 80%, hsl(0, 0%, 34%) 100%);
-    background-size: cover;
     height: 100vh;
-    width: 100%;
-}
-main {
-    padding: 16px;
-    height: 85%;
-}
-
-
-/* Main */
-.main-content {
+    background: rgb(11, 11, 11);
+    background: radial-gradient(circle, rgba(11, 11, 11, 1) 0%, rgba(92, 0, 143, 1) 100%);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 16px;
 }
+
+.login {
+    margin-inline: 35%;
+    margin-block: auto;
+}
+
+.login_container {
+    border: 2px solid var(--colors-violeta);
+    padding: 32px;
+    border-radius: 16px;
+}
+
+/* Main */
+
 /* FLEX MAS GRANDE */
 /* Parte del login:  */
-.login-form {
+/* .login-form {
     height: 75%;
-    display: flex; /* FLEX INTERMEDIO */
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     gap: 32px;
-}
+} */
 /* Parte del "registrarme" */
-.regis-ref {
-    /* height: 25%; */
+/* .regis-ref {
     display: flex;
     justify-content: center;
     width: 100%;
-}
-.regis-ref label {
+} */
+/* .regis-ref label {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     color : var(--colors-naranja);
-    /* text-shadow: #F04E24 0px 4px 4px; */
     margin-top: 16px;
     gap: 8px;
     font-size: 1.2em;
     max-width: 400px;
     width: 100%;
-}
+} */
 /* FLEX INTERMEDIO */
 
 
 /* Login button y olvide mi contrasenia */
-.login-bottom {
+/* .login-bottom {
     display: flex;
     flex-direction: column;
     gap: 24px;
     justify-content: space-around;
     align-items: center;
-    width: 100%; 
-    max-width: 400px;     /* Para que no se vea tan ancho en desktop */   
+    width: 100%;
+    max-width: 400px;
     font-size: 1.2em;
-    
-}
-.login-bottom a p {
+} */
+
+/* .login-bottom a p {
     color: var(--colors-naranja);
     text-decoration: underline;
     text-decoration-color: var(--colors-naranja);
-}
+} */
 /* Boton de registrate. No uso la clase "button" porque debe ser distinto a los otros botones */
-.regis-ref label button {
+/* .regis-ref label button {
     background-color: #121212;
-}
+} */
 
 
 

@@ -10,52 +10,107 @@
         <% } else { %>
             <%- include('./partials/headerLoggedIn') %>
         <% } %>
-
         <main class="registro">
-            <h2 class="titulo-login">Registrarse</h2>
-            <form action="/registro" method="POST" class="wrapper register-form" enctype ="multipart/form-data">
-                
-                <label class="field" for="username"> Nombre de usuario
-                    <input class="input-text" type="text" name="username" id="username">
-                </label>
-    
-                <label class="field" for="email"> Email
-                    <input class="input-text" type="email" name="email" id="email">
-                </label>
-    
-                <label class="field" for="avatar"> Foto de perfil
-                    <input class="input-text" type="file" name="avatar" id="avatar">
-                </label>
-    
-                <label class="field" for="rol"> Rol
-                    <select name="rol" id="rol">
-                        <option value="" disabled selected hidden>Seleccionar</option>
-                        <% for (let i=0; i<roles.length; i++) { %>
-                            <option value="<%= roles[i].id %>"><%= roles[i].tipo %></option>
-                        <% } %>
-                    </select>
-                </label>
-    
-                <label class="field" for="password"> Contraseña
-                    <input class="input-text" type="password" name="password" id="password">
-                </label>
-    
-                <label class="field" for="repeat_password"> Repetir contraseña
-                    <input class="input-text" type="password" name="repeat_password" id="repeat_password">
-                </label>
+            <div class="wrapper">
+                <div class="registro_container">
+                    <h2 class="titulo-login">Regístrate</h2>
+                    <form action="/registro" method="POST" enctype ="multipart/form-data">
 
-                <div class="field">
-                    <div class="login-bottom">
+
+
+                        <label class="field" for="username"> Nombre de usuario
+                            <input class="input-text" type="text" name="username" id="username" value="<%= locals.old && old.username ? old.username : ''%>">
+                        </label>
+
+                        <% if (locals.errores){ %>
+                            <% for (let i in errores){ %>
+                                <% if (errores[i].path === 'username'){%>
+                                    <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+
+                        <label class="field" for="email"> Email
+                            <input class="input-text" type="email" name="email" id="email" value="<%= locals.old && old.email ? old.email : ''%>">
+                        </label>
+                        <% if (locals.errores){ %>
+
+                            <% if (errorMail != ''){ %>
+                                <h3 class="mensajeDeError"> <%= errorMail %></h3>
+                            <% } else { %>
+                                <% for (let i in errores){ %>
+                                    <% if (errores[i].path === 'email'){%>
+                                        <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                                    <% } %>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+
+                        <label class="field" for="avatar"> Foto de perfil
+                            <input class="input-text" type="file" name="avatar" id="avatar">
+                        </label>
+
+                        <% if (locals.errores){ %>
+                            <% for (let i in errores){ %>
+                                <% if (errores[i].path === 'avatar'){%>
+                                    <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+
+                        <label class="field" for="rol"> Rol
+                            <select name="rol" id="rol">
+                                <option value="" disabled selected hidden>Seleccionar</option>
+                                <% for (let i=0; i<roles.length; i++) { %>
+                                    <option value="<%= roles[i].id %>" ><%= roles[i].tipo %></option>
+                                <% } %>
+                            </select>
+                        </label>
+
+                        <% if (locals.errores){ %>
+                            <% for (let i in errores){ %>
+                                <% if (errores[i].path === 'rol'){%>
+                                    <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+
+                        <label class="field" for="password"> Contraseña
+                            <input class="input-text" type="password" name="password" id="password">
+                        </label>
+
+                        <% if (locals.errores){ %>
+                            <% for (let i in errores){ %>
+                                <% if (errores[i].path === 'password'){%>
+                                    <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+
+                        <!-- <label class="field" for="repeat_password"> Repetir contraseña
+                            <input class="input-text" type="password" name="repeat_password" id="repeat_password">
+                        </label> -->
+
+                        <!-- <% if (locals.errores){ %>
+                            <% for (let i in errores){ %>
+                                <% if (errores[i].path === 'repeat_password'){%>
+                                    <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                                <% } %>
+                            <% } %>
+                        <% } %> -->
+
                         <button type="submit" class="button">Registrarse</button>
-                    </div>
+                        <!-- <div class="login-bottom">
+                        </div> -->
+
+                    </form>
                 </div>
-            </form>
-                        
+            </div>
         </main>
         <br>
         <br>
         <br>
         <%- include('./partials/footer') %>
-        
+
     </body>
 </html>

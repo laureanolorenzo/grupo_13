@@ -8,32 +8,55 @@
       <%- include('./partials/headerLoggedIn') %>
     <% } %>
 
-      <main>
-
-        <h2 class="titulo-login">Iniciar sesión</h2>
+      <main class="login">
+        <div class="wrapper">
+          <div class="login_container">
+            <h2 class="titulo-login">Iniciar sesión</h2>
 
         <form action="/login/process" method="POST" class="login-form">
           <label for="email" class="field">Correo electrónico
-            <input type="text" name="email" id="email" class="input-text">
+            <input type="text" name="email" id="email" class="input-text" value="<%= locals.old && old.email ? old.email : ''%>">
           </label>
+
+          <% if (locals.errores){ %>
+
+              
+                  <% for (let i in errores){ %>
+                      <% if (errores[i].path === 'email'){%>
+                          <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                      <% } %>
+                  <% } %>
+          <% } %>
 
           <label for="password" class="field">Contraseña
             <input type="password" name="password" id="password" class="input-text">
           </label>
-          <div class="recordame">
-            <label for="recordame" id="recordame-label"> Mantener sesión iniciada
-            </label>
-            <input type="checkbox" name="recordame" id="recordame-checkbox">
-          </div>
 
-          
+          <% if (locals.errores){ %>
 
-          <div class="login-bottom">
-            <button type="submit" class="button" id="login-btn">Ingresar</button>
+            
+                <% for (let i in errores){ %>
+                    <% if (errores[i].path === 'password'){%>
+                        <h3 class="mensajeDeError"> <%= errores[i].msg %></h3>
+                    <% } %>
+                <% } %>
+            
+          <% } %>
+
+              <div class="field-checkbox">
+                <input type="checkbox" name="recordame" id="recordame">
+                <label for="recordame" id="recordame-label"  class="field-checkbox"> Mantener sesión iniciada</label>
+              </div>
+
+              <button type="submit" class="button" id="login-btn">Ingresar</button>
+              <!-- <div class="login-bottom">
+              </div> -->
+            </form>
           </div>
-        </form>
+        </div>
+
       </main>
-          
+
     <%- include('./partials/footer') %>
   </body>
 </html>

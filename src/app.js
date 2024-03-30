@@ -78,7 +78,7 @@ app.listen(PORT, () => {
 
 let homePath = path.resolve(__dirname, 'views/home.html');
 // app.get('/', (req, res) => res.sendFile(homePath)); //View del home
-// app.get('/home', (req, res) => res.sendFile(homePath)); 
+// app.get('/home', (req, res) => res.sendFile(homePath));
 
 // Resto de los archivos. Con esto ya deberían funcionar sin importar el nombre que se les ponga.
 const htmlFiles = fs.readdirSync(path.resolve(__dirname, 'views'));

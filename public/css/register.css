@@ -1,29 +1,40 @@
 .register-body {
     height: 100vh; /* cambiar para la vista en pc */
-    position: relative;
-    background: rgb(87,85,88);
-    background: linear-gradient(0deg, rgba(87,85,88,1) 0%, rgba(184,23,223,1) 100%);
+    /* position: relative; */
+    /* background: rgb(87,85,88); */
+    /* background: linear-gradient(0deg, rgba(87,85,88,1) 0%, rgba(184,23,223,1) 100%); */
+    background: rgb(11, 11, 11);
+    background: radial-gradient(circle, rgba(11, 11, 11, 1) 0%, rgba(92, 0, 143, 1) 100%);
+    display: flex;
+    flex-direction: column;
+
 }
+
 
 footer {
     /* bottom: 0px; */
     width: 100%;
 }
 
-.register-form {
-    display: flex;
-    gap: 16px;
-    flex-direction: column;
+.registro {
+    padding-top: 80px;
+    margin: auto;
 }
 
-.registro p {
+.registro_container {
+    border: 2px solid var(--colors-violeta);
+    padding: 32px;
+    border-radius: 16px;
+}
+
+/* .registro p {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     text-align: center;
     padding-top: 10px;
     color: var(--colors-negro);
     text-shadow: var(--colors-naranja) 0 2px 4px;
-}
+} */
 
 .botones-registro {
     display: flex;
@@ -74,6 +85,15 @@ footer {
     filter: brightness(130%);
 }
 
+
+.mensajeDeError {
+    font-size: 12px;
+    text-shadow: black 1px 1px 1px;
+    text-align: center;
+    /* font-style: italic; */
+    color: red;
+    margin: 0 0 15px 0;
+}
 
 
 /* label input { DEBE HABER OTRO ARCHIVO MODIFICANDO ESTO?!

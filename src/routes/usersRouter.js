@@ -4,10 +4,13 @@ const router = express.Router();
 const {body} = require('express-validator');
 const path = require ('path');
 const multer = require ('multer');
+const db = require('../../database/models');
+const bcrypt = require('bcryptjs');
 
 const guestMiddleware = require('../middlewares/guestMiddleware');
 const ingresarAPerfilMiddleware = require('../middlewares/ingresarAPerfilMiddleware');
 const {removeWhiteSpace} = require('../middlewares/funcs');
+
 
 let multerDiskStorage = multer.diskStorage({ //Se guarda como variable para usarse luego
 	filename(req,file,callback) {
@@ -19,21 +22,60 @@ let multerDiskStorage = multer.diskStorage({ //Se guarda como variable para usar
     }
 })
 
+//validaciones
+const validacionesRegistro = [
+    body('username').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 2}).withMessage('El valor ingresado debe tener al menos 2 caracteres'),
+    body('email').notEmpty().withMessage('Este campo no puede estar vacío').bail().isEmail().withMessage('El email ingresado no es válido'),
+    body('password').notEmpty().withMessage('Este campo no puede estar vacío').bail().isLength({min: 8}).withMessage('El valor ingresado debe tener al menos 8 caracteres'),
+    body('rol').notEmpty().withMessage('Debe seleccionar un rol'),
+    body('avatar').custom((value, {req}) => {
+        let file = req.file;
+        let acceptedExtensions = ['.jpg','.jpeg', '.png', '.gif'];
+        let fileExtension;
+        if (!file) {
+            throw new Error('Debes subir una imagen de alguno de los siguientes formatos: JPG, JPEG, PNG, GIF')
+        } else {
+            fileExtension = path.extname(file.originalname)
+        }
+        if (!acceptedExtensions.includes(fileExtension)){
+            throw new Error('El formato de la imagen debe ser JPG, JPEG, PNG o GIF')
+        }
+        return true;
+    })
+];
+
+const validacionesLogin = [
+    body('email').notEmpty().withMessage('Debe ingresar un email').bail().isEmail().withMessage('El email ingresado no es válido').bail().custom(async(value, {req} ) => {
+        await db.Usuarios.findAll()
+            .then(function(usuarios){
+                let mailExistente = false;
+                for (let i in usuarios){
+                    if (usuarios[i].email === req.body.email){
+                        mailExistente = true;
+                    }
+                }
+                if (!mailExistente){
+                    throw new Error('El email ingresado no está registrado');
+                }
+            })
+    }),
+    body('password').notEmpty().withMessage('Ingrese su contraseña').bail().custom(async(value, {req}) => {
+        await db.Usuarios.findAll()
+            .then(function(usuarios){
+                for (let i in usuarios){
+                    if (usuarios[i].email == req.body.email){
+                        if (!bcrypt.compareSync(req.body.password, usuarios[i].password)){
+                            throw new Error('La contraseña es incorrecta');
+                        }
+                    }
+                }
+            })
+    })
+]
 
 fileUpload = multer({storage: multerDiskStorage});
 singleUpload = fileUpload.single('avatar');
 
-const userValidations = [
-    body('email').notEmpty().withMessage('*Por favor escriba su correo electrónico').isLength({min: 5, max: 40}).withMessage('*Email inválido'),
-    body('user').notEmpty().withMessage('*Por favor escriba su nombre de usuario').isLength({min:3, max:40}).withMessage('El usuario debe tener 3 a 40 caracteres'),
-    body('password').notEmpty().withMessage('*Por favor escriba una contraseña').isLength({min:3, max:40}).withMessage('La contraseña debe tener 3 a 40 caracteres'),
-    body('passwordRepeat').notEmpty().withMessage('*Por favor repita su contraseña'),
-    
-]
-const userLoginValidations = [
-    body('email').notEmpty().withMessage('*Por favor escriba su usuario o correo electrónico'),
-    body('password').notEmpty().withMessage('*Debe escribir su contraseña')
-]
 // Metodos
 
 router.get('/usuario', usersController.usersView);
@@ -42,7 +84,7 @@ router.get('/usuario', usersController.usersView);
 
 router.get('/registro', guestMiddleware, usersController.registerView);
 
-router.post('/registro', singleUpload, userValidations, usersController.postRegisterData);
+router.post('/registro', singleUpload, validacionesRegistro, usersController.postRegisterData);
 
 // Siempre mandar multer antes en el router: https://stackoverflow.com/questions/63632356/multer-and-express-validator-creating-problem-in-validation
 
@@ -54,7 +96,7 @@ router.post('/registro', singleUpload, userValidations, usersController.postRegi
 
 router.get('/login', guestMiddleware, usersController.login);
 
-router.post('/login/process',userLoginValidations, usersController.loginProcess);
+router.post('/login/process',validacionesLogin, usersController.loginProcess);
 
 
 

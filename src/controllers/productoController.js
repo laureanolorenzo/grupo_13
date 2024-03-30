@@ -4,7 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const db = require('../../database/models');
-
+const {validationResult} = require('express-validator');
 
 // Rutas
 const categoriesRuta = path.join(__dirname, '../datos/categories.json');
@@ -254,8 +254,18 @@ const productoController = {
         // res.render('crear_producto',{estructuraMovie, user: req.session.userLoggedIn }); // Incluir objeto (que venga de JSON con los datos de cada producto)
     },
 
-    crear_productoProcess(req,res, next) {
-        db.Peliculas.create({
+    async crear_productoProcess(req,res, next) {
+        const errors = validationResult(req);
+        // return res.send(errors)
+        // let errorImage = errors.find(x => x.path == 'image')
+        // if (errorImage){
+        //     fs.unlinkSync(`../../public/images/movies/${req.files['image'][0]['filename']}`)
+        // }
+        if (!errors.isEmpty()) {
+            let categorias = await db.categorias_peliculas.findAll()
+            return res.render('crear_producto', {categorias:categorias,errors: errors.array(),old:req.body})
+        } 
+        await db.Peliculas.create({
             titulo: req.body.title,
             anio: req.body.release_date.split('/')[0],
             es_estreno: req.body.estreno,

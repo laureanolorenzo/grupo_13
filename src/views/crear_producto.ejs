@@ -11,43 +11,47 @@
         <% } %>
             <main>
                 <div class="wrapper">
-
-                    <form class="section-input" method="POST" action="crear_producto/process" enctype="multipart/form-data">
+                    <% if (locals.errors) { %>
+                        <% for( let i = 0; i < errors.length; i++ ) { %>
+                            <div class="error-msg"><p><%= errors[i].msg %></p></div>
+                        <% } %>
+                    <% } %>
+                    <form class="section-input" method="POST" action="/process" enctype="multipart/form-data">
                         <label class="field">Título
-                            <input type="text" class="input-text" name="title" id="title" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')">
+                            <input type="text" class="input-text" name="title" id="title" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')" value = "<%= locals.old?.title%>">
                         </label>
                         <label class="field" for="estreno">Estreno
                             <select name="estreno" id="estreno" class="input-text">
                                 <option value="" disabled selected hidden>Seleccionar</option>
-                                <option value="si">Si</option>
-                                <option value="no" >No</option>
+                                <option value="si" <%= locals.old?.estreno == 'si'? 'selected':'' %>>Si</option>
+                                <option value="no" <%= locals.old?.estreno == 'no'? 'selected':'' %>>No</option>
                             </select>
                         </label>
                         <label class="field" for="descripcion"> Descripción
-                            <input type="text" class="input-text" name="description" id="description" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')">
+                            <input type="text" class="input-text" name="description" id="description" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')" value = "<%= locals.old?.description%>">
                         </label>
                         <label class="field">Director
-                            <input type="text" class="input-text" name="director" id="director" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')">
+                            <input type="text" class="input-text" name="director" id="director" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')" value = "<%= locals.old?.director%>">
                         </label>
                         <label class="field">Reparto
-                            <input type="text" class="input-text" name="cast" id="cast" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')">
+                            <input type="text" class="input-text" name="cast" id="cast" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')" value = "<%= locals.old?.cast%>">
                         </label>
                         <label class="field">Puntuación
-                            <input type="number" class="input-text" name="rating" id="rating" min="1" max= "5" placeholder="5"  oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')">
+                            <input type="number" class="input-text" name="rating" id="rating" min="1" max= "5" placeholder="5"  oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')" value = "<%= locals.old?.rating%>">
                         </label>
                         <label class="field" for="clasificacion_edad">Clasificación
                             <select name="clasificacion_edad" id="clasificacion_edad" class="input-text">
                                 <option value="" disabled selected hidden>Seleccionar</option>
-                                <option value="Apta para todo público" >Apta para todo público</option>
-                                <option value="Apta para mayores de 13" >Apta para mayores de 13</option>
-                                <option value="Apta para mayores de 18" >Apta para mayores de 18</option>
+                                <option value="Apta para todo público" <%= locals.old?.clasificacion_edad == 'Apta para todo público'? 'selected':'' %>>Apta para todo público</option>
+                                <option value="Apta para mayores de 13" <%= locals.old?.clasificacion_edad == 'Apta para mayores de 13'? 'selected':'' %>>Apta para mayores de 13</option>
+                                <option value="Apta para mayores de 18" <%= locals.old?.clasificacion_edad == 'Apta para mayores de 18'? 'selected':'' %>>Apta para mayores de 18</option>
                             </select>
                         </label>
                         <label class="field" for="duration"> Duración (en minutos)
-                            <input type="number" name="duration" id="duration" min="1" max="300" value="120" class="input-text">
+                            <input type="number" name="duration" id="duration" min="1" max="300" value="120" class="input-text" value = "<%= locals.old?.duration%>">
                         </label>
                         <label class="field">Origen
-                            <input type="text" class="input-text" name="origin" id="origin" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')">
+                            <input type="text" class="input-text" name="origin" id="origin" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')" value = "<%= locals.old?.origin%>">
                         </label>
                         <!-- <label class="field">Estreno
                             <input type="checkbox" class="input-text" name="estreno" id="estreno"   oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')">
@@ -63,31 +67,31 @@
                         
                         <label class="field" for="categoria">Categoría
                             <select name="category" id="category" class="input-text">
-                                <option value="" disabled selected hidden>Seleccionar</option>
+                                <option value="" disabled selected hidden >Seleccionar</option>
                             <% for (let i= 0; i<categorias.length; i++) { %>
-                                <option value ="<%= categorias[i].id %>"><%= categorias[i].titulo %></option>
+                                <option value ="<%= categorias[i].id %>" <%= locals.old?.category == categorias[i].id ? 'selected':'' %>><%= categorias[i].titulo %></option>
                             <% } %>
                             </select>
                         </label>
 
                         <label class="field" for="awards"> Premios 
-                            <input type="number" name="awards" id="awards" min="0" value="0" class="input-text">
+                            <input type="number" name="awards" id="awards" min="0" value="0" class="input-text" value = "<%= locals.old?.awards%>">
                         </label>
 
                         <label class="field" for="language"> Idioma
-                            <input type="text" name="language" id="language" class="input-text">
+                            <input type="text" name="language" id="language" class="input-text" value = "<%= locals.old?.language%>">
                         </label>
 
                         <label class="field" for="release_date">Fecha de estreno
-                            <input type="date" name="release_date" id="release_date" class="input-text" id = "datePickerId">
+                            <input type="date" name="release_date" id="release_date" class="input-text" id = "datePickerId" value = "<%= locals.old?.release_date%>">
                         </label>
 
                         <label for="imagen" class="field">Póster de la película
-                            <input type="file" name="image" id="image" class="input-text">
+                            <input type="file" name="image" id="image" class="input-text" value = "<%= locals.old?.poster%>">
                         </label>
 
                         <label for="banner" class="field">Banner de la película
-                            <input type="file" name="banner" id="banner" class="input-text">
+                            <input type="file" name="banner" id="banner" class="input-text" value = "<%= locals.old?.banner%>">
                         </label>
 
                         <div class="field">

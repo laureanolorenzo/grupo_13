@@ -59,16 +59,24 @@
   .dropdown-content {
       display: none;
       position: absolute;
-      background-color: #f9f9f9;
+      background-color: var(--colors-naranja);
+      border-radius: 0 16px 16px 16px;
       min-width: 160px;
       box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
       z-index: 1;
+      left: -150px;
+      width: 300px;
   }
 
   /* Mostrar el contenido desplegable al pasar el ratón por encima */
   .dropdown:hover .dropdown-content {
       display: block;
   }
+
+    .cat-dropdown {
+        display: flex;
+        flex-flow: wrap;
+    }
 
   /* Estilos de los enlaces del contenido desplegable */
   .dropdown-content a {
@@ -81,6 +89,9 @@
   /* Estilos de los enlaces al pasar el ratón por encima */
   .dropdown-content a:hover {
       background-color: #f1f1f1;
+      border-radius: 8px;
+      color: var(--colors-violeta);
+      font-weight: 700;
   }
 
   /* ---------------------- */
@@ -140,15 +151,15 @@ ul {
 }
 
 
-.titulo-pelicula {
+.titulo-pelicula-categorias {
     /* left: 45px; */
     /* margin-bottom: 18px; */
     font-size: 24px;
     font-family: 'Inter', sans-serif;
-    font-weight: bold;
+    font-weight: 700;
     /* font-size: 45px; */
     /* MODIFICAR COLORES */
-    color: var(--colors-naranja)
+    color: var(--colors-naranja);
     /* padding: 15px; */
 
 }
@@ -223,6 +234,13 @@ ul {
 
 
 @media(min-width: 426px) {
+    .dropdown-content {
+        left: -100px;
+        width: 500px;
+        background-color: var(--colors-naranja);
+        border-radius: 0 16px 16px 16px;
+    }
+
     .alineacion-movil {
         flex-direction: row;
     }
@@ -322,7 +340,13 @@ ul {
         margin-bottom: 30px;
     }
 
-@media(min-width: 992px) {  
+@media(min-width: 992px) {
+    .dropdown-content {
+            left: 0px;
+            width: 700px;
+            background-color: var(--colors-naranja);
+            border-radius: 0 16px 16px 16px;
+        }
 
     .contenido-categoria {
         align-items: center;
@@ -333,7 +357,7 @@ ul {
         background: var(--colors-blanco);
 
     }
-    
+
 }
 
 

@@ -16,17 +16,17 @@
 
 .input-text {
     border: solid 0.5px;
-    border-color: grey;
+    /* border-color: grey; */
     border-radius: 5px;
-    margin: auto;
-    margin-bottom: 10px;
-    margin-top: 12px;
-    width: 95%;
-    text-align: center;
+    /* margin: auto; */
+    /* margin-bottom: 10px; */
+    /* margin-top: 12px; */
+    /* width: 95%; */
+    /* text-align: center; */
     padding: 8px 10px;
 }
 /* son 2 clases!!!!  */
-.input-text-invalid { 
+.input-text-invalid {
     /* Para despues */
     border: solid 2px;
     border-color: red;
