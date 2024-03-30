@@ -19,17 +19,19 @@
           <div class="dropdown">
             <button class="dropbtn"><use>Seleccionar</use></button>
             <div class="dropdown-content">
+              <ul class="cat-dropdown">
               <% if (typeof categories !== 'undefined') { %>
                 <% for (const categ of categories) {%>
-                  <li><a href="/categorias/<%= categ.categoria %>" category="estrenos" id="seleccion-categoria"><%= categ.titulo %></a></li>
-                <% } %>
-                
-              <% } %>
+                    <li><a href="/categorias/<%= categ.categoria %>" category="estrenos" id="seleccion-categoria"><%= categ.titulo %></a></li>
+                    <% } %>
+
+                    <% } %>
+              </ul>
             </div>
           </div>
           <a href="/categorias" style="color: azure;">ver todas</a>
         </div>
-        
+
         <input type="text" class="Buscar" placeholder="Buscar Película">
       </div>
 
@@ -40,10 +42,10 @@
             <% for (const peli of datos) {%>
 
               <div class="contenido-pelicula">
-                <h3 class="titulo-pelicula"><%= peli.title %></h3>
+                <h3 class="titulo-pelicula-categorias"><%= peli.titulo %></h3>
                 <div class="contenido">
 
-                  <img class="poster" src="<%= peli.local?`/images/movies/${peli.poster}`:peli.poster %>"
+                  <img class="poster" src="<%= peli.local?`/images/movies/${peli.poster}`:peli.poster %>">
                   <ul class="detalle-pelicula">
                       <li class="linea" >Clasificación: <%= peli.clasificacion %></li>
                       <li class="linea" >Duración: <%= peli.duracion %></li>
@@ -63,7 +65,7 @@
         <!-- Pelicula por default -->
           <div class="alineacion-movil">
               <div class="contenido-pelicula">
-                <h3 class="titulo-pelicula">Oppenheimer (Default)</h3>
+                <h3 class="titulo-pelicula-categoria">Oppenheimer (Default)</h3>
                   <div class="contenido">
                     <img class="poster" src="/images/movies/Oppenheimer-1704895653762.jpg">
                     <ul>
@@ -89,5 +91,5 @@
   <%- include('./partials/footer') %>
   <script src="/js/categorias-script.js"></script>
 </body>
-  
+
 </html>

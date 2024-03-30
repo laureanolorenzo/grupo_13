@@ -57,6 +57,9 @@ body{
   text-overflow: ellipsis;
 }
 
+li {
+  list-style: none;
+}
 /* @media screen and (max-width: 767px){
   .wrapper {
     width: 393px;
