@@ -45,6 +45,21 @@ body{
   margin: auto;
 }
 
+.ellipsis {
+  overflow: hidden;
+  /*es to es si solo se quiere usar ellipsis en alguna otra parte*/
+}
+
+.ellipsis > * {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+li {
+  list-style: none;
+}
 /* @media screen and (max-width: 767px){
   .wrapper {
     width: 393px;

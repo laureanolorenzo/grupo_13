@@ -230,11 +230,21 @@ class Movie {
                 }
                 testStrRepr += ')';
                 // console.log(testStrRepr)
+                var newStr;
                 for (const prop in this) {
-                    strRepr += (this[prop] == null)? `null,`:`'${this[prop]}',`;
+                    // if (typeof this[prop] == 'string') {
+                        
+                    // }
+                    newStr = (this[prop] == null)? `null,`:`"${this[prop]}",`;
+                    newStr = newStr.replaceAll("'","'")
+                    strRepr += newStr
                     // strRepr += `${(this[prop]) == null?null:'this[prop]'}, `; //Chequear que hayan comillas!
                 }
-                return strRepr.slice(0,-2) + `)`;
+                strRepr = strRepr.slice(0,-2);
+                // strRepr = strRepr.replace(`"`,`'`);
+                strRepr = strRepr.charAt(-1) == `"`? strRepr + `),` : strRepr + `"),`;
+                strRepr = `("${strRepr.slice(2,-1)}`;
+                return strRepr
             } else {
                 throw new Error('Hubo un error al convertir en string. Chequee la estructura de su dato.');
             }
@@ -287,7 +297,7 @@ async function getEstrenos(maxN = 10) { // Trae los estrenos de Argentina (actua
     return movieIds;
 }
 async function getClassics(maxN=2) {
-    maxN = maxN > 100? 100 : maxN; // Por las dudas
+    maxN = maxN > 150? 150 : maxN; // Por las dudas, aunque vienen menos por el overlap
     let url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc`;
     let i = 1;
     let res;
@@ -338,8 +348,8 @@ const tmdbController = {
         //     1244034
         //   ];
         // Si hay que redefinir los ids, descomentar lo de abajo!
-        const clasicosIds = await getClassics(20);
-        const estrenosIds = await getEstrenos(25);
+        const clasicosIds = await getClassics(80);
+        const estrenosIds = await getEstrenos(50);
         let newMovie,newCredits,match;
         let nuevosIds = new Set([...clasicosIds,...estrenosIds]);
         for (const id of nuevosIds) {
@@ -405,10 +415,29 @@ module.exports = tmdbController;
 
 
 async function testingFunc() {
-    let newMovie = await getMovieByID(940551);
-    let newCredits = await getMovieCreditsByID(940551);
-    var movieInst = new Movie({...newMovie,...newCredits});
-    console.log(movieInst.getStringRepr())
+    const clasicosIds = await getClassics(100);
+    const estrenosIds = await getEstrenos(80);
+    let newMovie,newCredits,match;
+    let nuevosIds = new Set([...clasicosIds,...estrenosIds]);
+    for (const id of nuevosIds){
+        newMovie = await getMovieByID(id);
+        newCredits = await getMovieCreditsByID(id);
+        var movieInst = new Movie({...newMovie,...newCredits});
+        var stringRepresentation = movieInst.getStringRepr()
+        if (movieInst.poster) {
+            console.log(stringRepresentation) + ',';
+        }
+        
+    }
+    // let newMovie = await getMovieByID(940551); // La del pato
+    // let newCredits = await getMovieCreditsByID(940551);
+    // var movieInst = new Movie({...newMovie,...newCredits});
+    // console.log(movieInst.getStringRepr())
+    // let newMovie = await getMovieByID(872585); // La del pato
+    // let newCredits = await getMovieCreditsByID(872585);
+    // var movieInst = new Movie({...newMovie,...newCredits});
+    // console.log(movieInst.getStringRepr())
+    
     }
 
 

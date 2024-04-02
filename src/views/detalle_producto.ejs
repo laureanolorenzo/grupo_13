@@ -2,7 +2,7 @@
 <html lang="en">
 <%- include('./partials/head') %>
 <body>
-    <% if (typeof user === 'undefined') { %>
+    <% if (typeof locals.userLoggedIn === 'undefined') { %>
         <%- include('./partials/header') %>
     <% } else { %>
         <%- include('./partials/headerLoggedIn') %>
@@ -54,15 +54,20 @@
             <div class="buttons-detalle">
                 <button class="reserve-button">Reservar</button>
 
-                
-                <% for (let i=0; i<detallePelicula.length; i++){ %>
+                <% if (locals.session.userLoggedIn?.id_rol == 1) { %>
+                    <a href="/editar_producto/<%=detallePelicula[0].id%>" class="back-button">Editar</a>
+                    <form method="POST" action="borrar_producto/<%=detallePelicula[0].id%>">
+                        <button type="submit" class="reserve-button"">Eliminar</button>
+                    </form>
+                <% } %>
+                <!-- <% for (let i=0; i<detallePelicula.length; i++){ %>
                     <% if (detallePelicula[i].id == detalleProductoId) { %>
                         <a href="/editar_producto/<%=detallePelicula[i].id%>" class="back-button">Editar</a>
                         <form method="POST" action="borrar_producto/<%=detallePelicula[i].id%>">
                             <button type="submit" class="reserve-button"">Eliminar</button>
                         </form>
                     <% } %>
-                <% } %>
+                <% } %> -->
 
                 <a href="/" class="back-button">Volver</a>
             </div>

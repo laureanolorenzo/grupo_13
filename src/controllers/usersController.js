@@ -8,7 +8,7 @@ const session = require('express-session');
 const cookie = require('cookie-parser');
 const db = require('../../database/models');
 const {Op} = require('sequelize');
- 
+const app = require('express');
 const {validationResult} = require('express-validator');
 const { error } = require('console');
 function checkPasswordValidity(pw) { //Donde va esto?? En un archivo aparte??
@@ -40,7 +40,8 @@ function checkPasswordValidity(pw) { //Donde va esto?? En un archivo aparte??
 }
 
 const usersController = {
-    usersView(req,res) {
+    async usersView(req,res) {
+        // const user = await db.findByPk(req.session.userLoggedIn.idUsuario);
         // res.render('perfilUsuario', { user: req.session.userLoggedIn }); // Incluir objeto (que venga de JSON con los datos de cada producto)
         res.render('perfilUsuario'); // Incluir objeto (que venga de JSON con los datos de cada producto)
     },
@@ -81,11 +82,12 @@ const usersController = {
                 nombre: req.body.username,
                 email: req.body.email,
                 password: bcrypt.hashSync(req.body.password),
-                foto: req.body.filename,
+                foto: req.file?.filename, //No viene en body! 
                 id_rol: req.body.rol,
             });
             res.redirect('/home');
         } else{
+            // res.send(errores)
             db.roles.findAll()
             .then(function(roles){
                 return res.render('registro',{roles:roles, errores:errores.array(), old:req.body, errorMail:errorMail})
@@ -198,46 +200,37 @@ const usersController = {
 
     loginProcess: async (req,res) => {
         let errorMsg;
-        // db.Usuarios.findAll()
-        //     .then(function(lista_usuarios){
+        let errores = validationResult(req);
 
-        //         let usuarioIngresado = req.body.username;
-        //         let contrasenaIngresada = bcrypt.hashSync(req.body.password)
 
-        //         for (let i=0; i<lista_usuarios.length; i++) {
-                    
-        //             let comparacionContrasenas = bcrypt.compareSync(lista_usuarios[i].contrasena, req.body.password)
-        //             if (lista_usuarios[i].email == req.body.email && comparacionContrasenas){
-        //                 console.log('iniciaste sesion')
-
-        //                 return res.redirect('/home')
-
-        //             }
-        //         }
-        //     })
-
-        const userToLog = await db.Usuarios.findOne({
-            where: {[Op.or] : {
-                nombre: req.body.email,
-                email: req.body.email
+        if (errores.isEmpty()){
+            const userToLog = await db.Usuarios.findOne({
+                where: {[Op.or] : {
+                    nombre: req.body.email,
+                    email: req.body.email
+                    }
                 }
-            }
-        })
-        if (!userToLog) {
-            errorMsg = 'Usuario o contraseña incorrectos'
-            return res.render('login',{'errormsg':errorMsg});
-        }
-        if (bcrypt.compareSync(req.body.password,userToLog.password)) {
+            })
+            // if (!userToLog) {
+            //     errorMsg = 'Usuario o contraseña incorrectos'
+            //     return res.render('login',{'errormsg':errorMsg});
+            // }
             req.session.idUsuario = userToLog.id;
             delete userToLog.password
             delete userToLog.passwordRepeat
             req.session.userLoggedIn = userToLog;
             res.locals.userLoggedIn = userToLog; // https://stackoverflow.com/questions/56698453/express-session-cannot-set-property-user-of-undefined
             res.redirect('/home'); //Login exitoso
+            // if (bcrypt.compareSync(req.body.password,userToLog.password)) {
+            // } else {
+            //     errorMsg = 'Usuario o contraseña incorrectos'
+            //     return res.render('login',{'errormsg':errorMsg});
+            // }
         } else {
-            errorMsg = 'Usuario o contraseña incorrectos'
-            return res.render('login',{'errormsg':errorMsg});
+            // res.send(errores)
+            return res.render('login', {errores:errores.array(), old:req.body});
         }
+
 
         // let userToLogin = User.findByField(['email','user'], req.body.email)
         // let errors = validationResult(req).mapped();

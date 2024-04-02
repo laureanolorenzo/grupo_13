@@ -13,9 +13,11 @@
             <a href="/" class="header-logo">
               <span>CINEMOVIE</span>
             </a>
-            <a href="/crear_producto" class="header-create">
-              <span>Crear pelicula</span>
-            </a>
+            <% if (locals.userLoggedIn?.id_rol == 1) { %>
+              <a href="/crear_producto" class="header-create">
+                <span>Crear pelicula</span>
+              </a>
+            <% } %>
           </div>
           <ul class="menu-items">
             <li class="menu-item"><a href="/kiosco"><i class="fa-solid fa-store"></i></a></li>

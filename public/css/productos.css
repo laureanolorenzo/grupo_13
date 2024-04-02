@@ -1,35 +1,49 @@
+
+
 .titulo-productos {
-    color: var(--colors-negro);
+    color: var(--colors-blanco);
+    margin-block: 32px;
+    font-weight: 500;
 }
 
 .lista-productos {
-    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 32px;
 }
 
 .item-productos {
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin: 15px 30%;
-    padding: 10px 5px;
+    max-width: 186px;
     border-radius: 10px;
     background-color: var(--colors-blanco);
+    background-color: rgba(255, 123, 0, 0.515);
     font-size: 16px;
+    padding: 8px;
 }
 
 .item-productos img{
-    margin: 5%;
-    width: 90%;
-    height: 90%;
+    width: 100%;
     border-radius: 5px;
 }
 
 .item-productos a {
+    color: var(--colors-blanco);
     text-decoration: none;
 }
 
-.item-productos p {
-    padding: 0 0 15px 0;
+.titulo_movie {
+    text-align: left;
+}
+
+.detalle_card_producto {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--colors-blanco);
 }
 
 .titulo-editar-prod {
@@ -38,11 +52,12 @@
 
 .form-buscar {
     display: flex;
-    margin: auto;
+    margin: 16px auto;
+    width: 100%;
 }
 
 .label-buscar {
-    width: 50%;
+    width: 100%;
     margin-right: 5px;
 }
 
@@ -50,7 +65,7 @@
     border: none;
     border-radius: 5px;
     width: 100%;
-    padding: 2px;
+    padding: 8px;
 }
 
 .div-buscar {
@@ -61,19 +76,12 @@
     border: none;
     border-radius: 5px;
     width: 100%;
-    padding: 2px;
+    padding: 8px;
 }
 
 @media(min-width:481px){
     .item-productos {
         font-size: 20px;
-    }
-
-    .item-productos img{
-        margin: 5%;
-        width: 90%;
-        height: 90%;
-        border-radius: 5px;
     }
 
     .label-buscar {
@@ -94,15 +102,9 @@
     }
 
     .item-productos {
-        flex-direction: column;
-        max-width: 15%;
-        margin: 15px 15px;
-        flex-basis: 60%;
-    }
-
-    .item-productos img {
-        width: 10vw;
-        height: 15vw;
+        margin: 16px;
+        max-width: 200px;
+        font-size: 16px;
     }
 
     .label-buscar {
@@ -120,5 +122,5 @@
     .boton-buscar {
         padding: 7px;
     }
-    
+
 }
