@@ -1,9 +1,8 @@
 module.exports = {
   "development": {
     "username": "root",
-    "password": "root",
+    "password": null,
     "database": "cinemovies",
-    "port": "8889",
     "host": "127.0.0.1",
     //"port": "3306",
     "dialect": "mysql",

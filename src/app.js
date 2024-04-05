@@ -41,6 +41,7 @@ const rutaHome = require('./routes/mainRouter');
 const rutaProducto = require('./routes/productoRouter');
 const rutaTMDB = require('./routes/tmdbRouter');
 const rutaAPI = require('./routes/apiRouter');
+const rutaAPIUsuario = require('./routes/apisRouter/UserProductsRouter');
 
 //cookie parser
 const cookieParser = require('cookie-parser');
@@ -69,6 +70,12 @@ app.use(rutaProducto);
 app.use(rutaTMDB);
 
 app.use('/api',rutaAPI);
+
+
+// uso del router de api usuarios
+
+app.use('/apiUsuario',rutaAPIUsuario)
+
 // Servidor
 const PORT = 3000;
 
