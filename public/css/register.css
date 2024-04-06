@@ -95,6 +95,17 @@ footer {
     margin: 0 0 15px 0;
 }
 
+.errores{
+    text-align: center;
+    /* max-width: 186px; */
+    border-radius: 10px;
+    color:#fff;
+    /* background-color: var(--colors-blanco); */
+    background-color: rgba(255, 123, 0, 0.515);
+    font-size: 16px;
+    font-family: 'Jost', sans-serif;
+    /* padding: 8px; */
+}
 
 /* label input { DEBE HABER OTRO ARCHIVO MODIFICANDO ESTO?!
     border: 8px solid red;

@@ -11,6 +11,7 @@
       <main class="login">
         <div class="wrapper">
           <div class="login_container">
+            <ul class="errores" id="errores"></ul>
             <h2 class="titulo-login">Iniciar sesión</h2>
 
         <form action="/login/process" method="POST" class="login-form">
@@ -58,5 +59,6 @@
       </main>
 
     <%- include('./partials/footer') %>
+    <script src="/js/login.js"></script>
   </body>
 </html>
