@@ -2,7 +2,7 @@ const db = require('../../../database/models');
 const path = require('path');
 
 
-const userProductsController = {
+const usersApiController = {
 
     async getUsuarios(req,res) {
 
@@ -10,9 +10,9 @@ const userProductsController = {
 
         let urlIndividual = 'http://localhost:3000/apiUsuario/users/' 
 
-        const usuariosFiltrados = usuarios.map((x) => ({'id':x.id, 'nombre':x.nombre, 'email': x.email, 'url':urlIndividual+x.id}));
+        const users = usuarios.map((x) => ({'id':x.id, 'nombre':x.nombre, 'email': x.email, 'url':urlIndividual+x.id}));
 
-        res.json(usuariosFiltrados);
+        res.json({count:usuarios.length, users});
 
     },
     
@@ -39,4 +39,4 @@ const userProductsController = {
 
 }
 
-module.exports = userProductsController;
+module.exports = usersApiController;

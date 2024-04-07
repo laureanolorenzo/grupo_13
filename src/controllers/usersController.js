@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const usersPath = path.join(__dirname,'../datos/users.json');
 
-const User = require('../../models/User');
+// const User = require('../../models/User');
 const session = require('express-session');
 const cookie = require('cookie-parser');
 const db = require('../../database/models');
