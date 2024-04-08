@@ -12,7 +12,7 @@
                
 
                 <form class="section-input" method="POST" action="process/<%=peliculaAEditar.id%>">                  
-                    
+                    <ul class="errores" id="errores"></ul>
                     <label class="field">Título
                         <input type="text" class="input-text" name="title" id="title" value="<%= peliculaAEditar.titulo %>" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')">
                     </label>
@@ -96,5 +96,6 @@
             </div>
         </main>
         <%- include('./partials/footer') %>
+        <script src="/js/editarProducto.js"></script>
     </body>
 </html>

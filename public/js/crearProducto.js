@@ -5,26 +5,21 @@ window.addEventListener("load", () => {
 
     form.addEventListener("submit", (event) => {
         let errorsList = [];
-        
-        // Nombre y Apellido
-        if (form.username.value == "") {
-            errorsList.push("El nombre no debe estar vacío");
-        } else if (form.username.value.length < 2) {
-            errorsList.push("El nombre debe contener más de 2 letras");
-        };
-        
-        let reg1 = /^[a-zA-Z0-9_]{3,8}@[a-zA-Z0-9_]{1,8}\.[a-zA-Z0-9_]{1,11}$/;
-        
-        // Email
-        if (form.email.value == "") {
-            errorsList.push("El email no debe estar vacío");
-        } else if (reg1.test(form.email.value)) {
-            errorsList.push("El email debe tener un formato válido");
+
+        // Nombre
+        if (form.title.value == "") {
+            errorsList.push("El título no debe estar vacío");
+        } else if (form.title.value.length < 5) {
+            errorsList.push("El título debe contener más de 5 caracteres");
         };
 
+        // Descripción
+        if (form.description.value.length < 20) {
+            errorsList.push("El título debe contener más de 20 caracteres");
+        }
 
-        // Avatar
-        let fileInput = document.getElementById('avatar');
+        // Poster
+        let fileInput = document.getElementById('image');
         let file = fileInput.files[0];
         if (!file) {
             errorsList.push("Por favor, selecciona una imagen.");
@@ -35,11 +30,6 @@ window.addEventListener("load", () => {
                 errorsList.push("Por favor, selecciona un archivo de imagen válido (JPG, JPEG, PNG, GIF).");
             }
         }
-
-        // Contraseña
-        if (form.password.value == "") {
-            errorsList.push("La contraseña no debe estar vacía");
-        };
 
         if (errorsList.length > 0) {
             event.preventDefault();

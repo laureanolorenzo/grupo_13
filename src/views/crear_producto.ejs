@@ -16,6 +16,8 @@
                             <div class="error-msg"><p><%= errors[i].msg %></p></div>
                         <% } %>
                     <% } %>
+
+                    <ul class="errores" id="errores"></ul>
                     <form class="section-input" method="POST" action="/process" enctype="multipart/form-data">
                         <label class="field">Título
                             <input type="text" class="input-text" name="title" id="title" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')" value = "<%= locals.old?.title%>">
@@ -102,6 +104,7 @@
             </main>
             <script>datePickerId.max = new Date().toISOString().split("T")[0];</script>
             <%- include('./partials/footer') %>
+            <script src="/js/crearProducto.js"></script>
     </body>
 
 </html>
