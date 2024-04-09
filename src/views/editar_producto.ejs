@@ -11,13 +11,13 @@
             <div class="wrapper">
                
 
-                <form class="section-input" method="POST" action="process/<%=peliculaAEditar.id%>">                  
+                <form class="section-input" method="POST" action="process/<%=peliculaAEditar.id%>" enctype="multipart/form-data">                  
                     <ul class="errores" id="errores"></ul>
                     <label class="field">Título
                         <input type="text" class="input-text" name="title" id="title" value="<%= peliculaAEditar.titulo %>" minlength="1" oninvalid="this.setCustomValidity('*El campo no puede quedar vacío')">
                     </label>
                     <label class="field" for="year"> Año
-                        <input type="number" name="year" id="year" value="<%= peliculaAEditar.anio %>"  min="1900" max="2023" value="2023" class="input-text">
+                        <input type="number" name="year" id="year" value="<%= peliculaAEditar.anio %>"  min="1900" max="2024" value="2023" class="input-text">
                     </label>
                     <label class="field" for="estreno">Estreno
                         <select name="estreno" id="estreno" class="input-text">

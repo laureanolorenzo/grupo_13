@@ -350,6 +350,7 @@ const tmdbController = {
         // Si hay que redefinir los ids, descomentar lo de abajo!
         const clasicosIds = await getClassics(80);
         const estrenosIds = await getEstrenos(50);
+        usuarios.map(x => {{}})
         let newMovie,newCredits,match;
         let nuevosIds = new Set([...clasicosIds,...estrenosIds]);
         for (const id of nuevosIds) {

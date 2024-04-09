@@ -15,7 +15,7 @@ window.addEventListener("load", () => {
 
         // Descripción
         if (form.description.value.length < 20) {
-            errorsList.push("El título debe contener más de 20 caracteres");
+            errorsList.push("La descripción debe contener más de 20 caracteres");
         }
 
         // Poster

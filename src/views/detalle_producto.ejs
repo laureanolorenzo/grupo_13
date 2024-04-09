@@ -55,9 +55,9 @@
                 <button class="reserve-button">Reservar</button>
 
                 <% if (locals.session.userLoggedIn?.id_rol == 1) { %>
-                    <a href="/editar_producto/<%=detallePelicula[0].id%>" class="back-button">Editar</a>
-                    <form method="POST" action="borrar_producto/<%=detallePelicula[0].id%>">
-                        <button type="submit" class="reserve-button"">Eliminar</button>
+                    <a href="/editar_producto/<%=detalleProductoId%>" class="back-button">Editar</a>
+                    <form method="POST" action="borrar_producto/<%=detalleProductoId%>">
+                        <button type="submit" class="reserve-button">Eliminar</button>
                     </form>
                 <% } %>
                 <!-- <% for (let i=0; i<detallePelicula.length; i++){ %>

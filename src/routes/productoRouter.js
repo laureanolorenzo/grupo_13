@@ -42,7 +42,6 @@ const validacionesProducto = [
 	.isLength({min:2,max:255}).withMessage('El director debe contener entre 2 y 255 caracteres'),
 	body('cast').notEmpty().withMessage('Por favor especifique el reparto de su película')
 	.isLength({min:2,max:255}).withMessage('El reparto debe contener entre 2 y 255 caracteres'),
-	body('rating').notEmpty().withMessage('Debe especificar la puntuación de su película'),
 	body('clasificacion_edad').notEmpty().withMessage('Debe especificar la calificación de edad de su película')
 	.isLength({min:2,max:100}).withMessage('La clasificación debe contener entre 2 y 100 caracteres'),
 	body('duration').notEmpty().withMessage('Debe especificar la duración de su película').isNumeric().withMessage('Por favor ingrese una duración válida')

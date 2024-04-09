@@ -139,9 +139,8 @@ const productoController = {
 
     },
     
-    editar_producto(req,res){
-
-        db.Peliculas.update({
+    async editar_producto(req,res){
+        let updated = {
             titulo: req.body.title,
             anio: req.body.year,
             es_estreno: req.body.estreno,
@@ -152,13 +151,19 @@ const productoController = {
             clasificacion: req.body.clasificacion_edad,
             duracion: req.body.duration,
             origen: req.body.origin,
-            poster: req.files['image'][0],
-            banner: req.files['banner'][0],
+            // banner: req.files['banner']?req.files['banner'][0]['filename']:null,
             awards: req.body.awards,
             idioma: req.body.language,
             fecha_estreno: req.body.release_date,
-            id_categoria_pelicula: req.body.category
-        }, {
+            id_categoria_pelicula: req.body.category,
+        }
+        if (req.files) {
+            updated['poster'] = req.files['image'][0]['filename']
+            updated['local'] = 1
+        }
+
+        await db.Peliculas.update(updated
+        , {
             where: {
                 id: req.params.id
             }
@@ -272,7 +277,7 @@ const productoController = {
             descripcion: req.body.description,
             director: req.body.director,
             reparto: req.body.cast,
-            puntuacion: req.body.rating,
+            puntuacion: req.body.rating?req.body.rating:5,
             clasificacion: req.body.clasificacion_edad,
             duracion: req.body.duration,
             origen: req.body.origin,
