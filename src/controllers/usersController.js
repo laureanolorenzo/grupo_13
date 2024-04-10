@@ -11,6 +11,7 @@ const {Op} = require('sequelize');
 const app = require('express');
 const {validationResult} = require('express-validator');
 const { error } = require('console');
+const { EventEmitterAsyncResource } = require('stream');
 function checkPasswordValidity(pw) { //Donde va esto?? En un archivo aparte??
     let [upper,lower,digit,alpha] = [false,false,false,false];
     let forbiddenChars = ['#', '%', '&', '{', '}', '\\', '<', '>', '*', '?', '/', ' ', '$', '!', "'", '"', ':', '@', '+', '`', '|', '=',':','.'];
@@ -61,23 +62,20 @@ const usersController = {
     },
     
     async postRegisterData(req,res) {
-        
         let errores = validationResult(req);
-        let errorMail = '';
-        
-        await db.Usuarios.findAll()
-            .then(function(usuarios){
-                for (let i in usuarios){
-                    if (usuarios[i].email === req.body.email){
-                        db.roles.findAll()
-                        .then(function(){
-                            errorMail = 'El email ingresado ya está registrado';
-                        })
-                    }
-                }
-            })
 
-        if (errores.isEmpty()){
+        let usuarios = await db.Usuarios.findAll();
+
+        let errorMail = '';
+        for (let i in usuarios) {
+            if (usuarios[i].email === req.body.email) {
+                errorMail = 'El email ingresado ya está registrado';
+                let roles = await db.roles.findAll();
+                return res.render('registro', { roles: roles, errores: errores.array(), old: req.body, errorMail: errorMail });
+            }
+        }
+
+        if (errores.isEmpty()) {
             await db.Usuarios.create({
                 nombre: req.body.username,
                 email: req.body.email,
@@ -86,87 +84,16 @@ const usersController = {
                 id_rol: req.body.rol,
             });
             res.redirect('/home');
-        } else{
-            // res.send(errores)
-            db.roles.findAll()
-            .then(function(roles){
-                return res.render('registro',{roles:roles, errores:errores.array(), old:req.body, errorMail:errorMail})
-            })
+        } else {
+            let roles = await db.roles.findAll();
+            return res.render('registro', { roles: roles, errores: errores.array(), old: req.body, errorMail: errorMail });
         }
+            
+    },
+
 
 
         
-        // let emailInDB = User.findByField('email', req.body.email);
-        // let userInDB = User.findByField('user',req.body.user);
-        // let errors = validationResult(req).mapped(); 
-        // if (emailInDB) { //Case mejor?? O directamente una funcion que reciba un booleano
-        //     if (Object.keys(errors).length != 0) {
-        //         errors['email'] = {msg:'*El email ya está en uso'}
-        //     } else {
-        //         errors = {email:{msg:'*El email ya está en uso'}};
-        //     }
-        // }
-        // if (userInDB) {
-        //     if (Object.keys(errors).length != 0) {
-        //         errors['user'] = {msg:'*El nombre de usuario no está disponible'};
-        //     } else {
-        //         errors = {user:{msg:'*El nombre de usuario no está disponible'}};
-        //     }
-        // }
-        // if (req.body.password != req.body.passwordRepeat) { // Hay mejores formas de hacer esto???
-        //     if (Object.keys(errors).length == 0) { //si el email ya está registrado te recarga la pagina y no te crea el usuario, 
-        //         errors = {password:{msg:'*Las contraseñas deben coincidir'}}
-        //     } else {
-        //         errors['password'] = errors.password ? errors.password : {msg: '*Las contraseñas deben coincidir'};
-        //     }
-        // }
-        // if (!checkPasswordValidity(req.body.password)) {
-        //     errors['password'] = errors?.password? errors.password : {msg:'*La contraseña debe contener al menos una letra minúscula, una letra mayúscula, y un número, y sólo puede contener caracteres alfanuméricos'};
-        // }
-        // // If final por si hay errores o no
-        // if (Object.keys(errors).length > 0) { // Un solo check al final
-        //     if (errors.password && errors.passwordRepeat) {
-        //         delete errors.passwordRepeat
-        //     }
-        //     return res.render('registro',{
-        //         errors,
-        //         oldData: req.body,
-        //         user: req.session.userLoggedIn
-        //     })
-        // } else {
-        //     userData = {
-        //         ...req.body,
-        //         'profilePic': req.file?.filename ? req.file.filename : 'default-profilePic.jpg'
-        //     }
-        //     User.create(userData);
-        //     res.redirect('home');
-        // }
-
-
-
-        // LO DE ARRIBA ERA LO ANTERIOR
-
-        // let usersString = fs.readFileSync(usersPath,{encoding:'utf-8'});
-        // let users = JSON.parse(usersString);
-        // let user = {};
-        // user.username = req.body.user;
-        // user.email = req.body.email;
-        // user.password = bcrypt.hashSync(req.body.password);
-        // user.passwordRepeat = bcrypt.hashSync(req.body.passwordRepeat);
-        // user.id = 1;
-        // console.log(users);
-        // let lastUser = users.pop(); //saca el ultimo valor ingresado para despues usar su id
-        // if (!users || users.length==0){
-        //     users = [];
-        // } else {
-        //     user.id = lastUser.id + 1; //saca un nuevo numero de id sumandole 1 al id del valor que sacamos antes
-        // }
-        // users.push(lastUser); //devuelve el lastUser al archivo
-        // users.push(user);   //agrega el nuevo usuario al archivo
-        // usersToSave = JSON.stringify(users, null, " ");
-        // fs.writeFileSync(usersPath,usersToSave,{encoding: 'utf-8'})
-        // res.redirect('home')
-    },
 
     // loginView(req,res) {
     //     let usersString = fs.readFileSync(path.join(__dirname,'../datos/users.json'),{encoding:'utf-8'});
